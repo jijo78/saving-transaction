@@ -22,8 +22,6 @@ const TransactionView = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const getTransactionDetails = () => {
-    setIsLoading(true);
-
     getAccounts()
       .then(res => {
         const { accounts } = res.data;
@@ -38,19 +36,23 @@ const TransactionView = () => {
             );
             setTransactionsDetails(filteredData);
           });
-          setIsLoading(false);
         });
       })
       .catch(error => {
+        setIsLoading(false);
+
         console.log('error: ', error);
+
         setIsError(true);
         setErrorMessage(error.message);
-        setIsLoading(false);
       });
   };
 
   useEffect(() => {
+    setIsLoading(true);
+
     getTransactionDetails();
+    setIsLoading(false);
   }, []);
 
   const saveToGoal = amountSaved => {
@@ -65,7 +67,6 @@ const TransactionView = () => {
   };
 
   if (isLoading || !transactions.length) return <p>Loading...</p>;
-  console.log(isError);
   const total = [];
   let totalSave;
   return (

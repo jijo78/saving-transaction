@@ -101,19 +101,20 @@ describe('<TransactionView />', () => {
   });
 
   it('shows an error message on failures', async () => {
-    getAccounts.mockResolvedValueOnce({
-      data: {
-        accounts
-      }
-    });
-    getTransactionsForAccount.mockRejectedValueOnce({ error: { message: 'all wrong' } });
+    getAccounts.mockRejectedValueOnce({ error: { message: 'all wrong' } });
     const { getByRole, getByText } = await render(<TransactionView />);
+
+    //getTransactionsForAccount.mockRejectedValueOnce({ error: { message: 'all wrong' } });
+    const loading = getByText('Loading...');
+    expect(loading).toHaveTextContent(/loading/i);
     expect(getAccounts).toHaveBeenCalled();
+
     //expect(getTransactionsForAccount).toHaveBeenCalled();
-    const errorAlert = await waitForElement(() => getByText('all wrong'));
-    //await waitForElement(() => expect(getByText('all wrong')).toBeInTheDocument());
+    //const errorAlert = await waitForElement(() => getByText('alert'));
+    const errorAlert = await wait(() => getByText('all wrong'));
     expect(errorAlert).not.toBeNull();
   });
+
   it('should render successful message correctly', async () => {
     // mock to get account ID
     getAccounts.mockResolvedValueOnce({
@@ -131,8 +132,11 @@ describe('<TransactionView />', () => {
 
     //const button = await getByTestId('saveGoal');
     const button = await waitForElement(() => getByTestId('saveGoal'));
-    fireEvent.click(button, saveToSavingGoal.mockResolvedValueOnce('144.1'));
 
-    expect(saveToSavingGoal).toHaveBeenCalledTimes(1);
+    fireEvent.click(button, saveToSavingGoal.mockResolvedValueOnce());
+    const savedMessage = await waitForElement(() =>
+      getByText('Money succesfully added to your saving account')
+    );
+    expect(savedMessage).toBeInTheDocument();
   });
 });

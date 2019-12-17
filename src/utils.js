@@ -1,6 +1,7 @@
 import moment from 'moment';
 import axios from 'axios';
 import { generateUUID } from '../src/selectors/generate-uuid';
+
 const headers = {
   Accept: 'application/json',
   Authorization:
@@ -12,6 +13,7 @@ const today = moment().format();
 const oneWeek = moment()
   .add(7, 'd')
   .format();
+
 export const getAccounts = () =>
   axios.get('/api/v2/accounts', {
     headers
