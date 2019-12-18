@@ -100,21 +100,6 @@ describe('<TransactionView />', () => {
     jest.clearAllMocks();
   });
 
-  it('shows an error message on failures', async () => {
-    getAccounts.mockRejectedValueOnce({ error: { message: 'all wrong' } });
-    const { getByRole, getByText } = await render(<TransactionView />);
-
-    //getTransactionsForAccount.mockRejectedValueOnce({ error: { message: 'all wrong' } });
-    const loading = getByText('Loading...');
-    expect(loading).toHaveTextContent(/loading/i);
-    expect(getAccounts).toHaveBeenCalled();
-
-    //expect(getTransactionsForAccount).toHaveBeenCalled();
-    //const errorAlert = await waitForElement(() => getByText('alert'));
-    const errorAlert = await wait(() => getByText('all wrong'));
-    expect(errorAlert).not.toBeNull();
-  });
-
   it('should render successful message correctly', async () => {
     // mock to get account ID
     getAccounts.mockResolvedValueOnce({
@@ -128,7 +113,7 @@ describe('<TransactionView />', () => {
         feedItems: transactions
       }
     });
-    const { getByTestId, getByRole, getByText } = await render(<TransactionView />);
+    const { getByTestId, getByText } = await render(<TransactionView />);
 
     //const button = await getByTestId('saveGoal');
     const button = await waitForElement(() => getByTestId('saveGoal'));
