@@ -39,7 +39,6 @@ const TransactionView = () => {
       })
       .catch(error => {
         setIsLoading(false);
-
         setIsError(true);
         setErrorMessage(error.message);
       });
@@ -73,7 +72,10 @@ const TransactionView = () => {
         <ul>
           {transactions &&
             transactions.map(transaction => {
+              // get amount in pennys
               const moneyAmount = transaction.amount.minorUnits / 100;
+
+              // round up to nearest pound and make sure only 2 digits after number
               const amountRounded = Math.ceil(moneyAmount).toFixed(2);
               const amountSaved = parseFloat((amountRounded - moneyAmount).toFixed(2), 8);
               total.push(amountSaved);
