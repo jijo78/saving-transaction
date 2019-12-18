@@ -1,7 +1,6 @@
 import React from 'react';
-
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+
 import moment from 'moment';
 
 import { DAY_MONTH_FORMAT } from '../const/date-formats';
@@ -41,8 +40,6 @@ const TransactionView = () => {
       .catch(error => {
         setIsLoading(false);
 
-        console.log('error: ', error);
-
         setIsError(true);
         setErrorMessage(error.message);
       });
@@ -50,7 +47,6 @@ const TransactionView = () => {
 
   useEffect(() => {
     setIsLoading(true);
-
     getTransactionDetails();
     setIsLoading(false);
   }, []);

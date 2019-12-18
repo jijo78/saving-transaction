@@ -9,7 +9,7 @@ const App = () => {
   return (
     <main className='weekly-balance'>
       <Header />
-      <section className='App-header'>
+      <section className='weekly-balance__wrapper'>
         <TransactionView />
       </section>
     </main>
